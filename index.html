@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Ứng dụng Xếp loại Học lực</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #ffecd2, #fcb69f);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+
+    .container {
+      background: white;
+      max-width: 600px;
+      width: 90%;
+      margin-top: 40px;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 24px;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 12px;
+      color: #333;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    button {
+      margin-top: 20px;
+      background-color: #ff7f50;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      width: 100%;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #ff5722;
+    }
+
+    .result {
+      margin-top: 30px;
+      padding: 20px;
+      background-color: #fff8f0;
+      border-left: 6px solid #ffa500;
+      border-radius: 10px;
+      font-size: 17px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.05);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>📚 Ứng dụng Xếp loại Học lực</h2>
+    <label>Họ tên học sinh:</label>
+    <input type="text" id="ten">
+
+    <label>Toán:</label>
+    <input type="number" id="toan" step="0.1">
+
+    <label>Văn:</label>
+    <input type="number" id="van" step="0.1">
+
+    <label>Anh:</label>
+    <input type="number" id="anh" step="0.1">
+
+    <label>KHTN:</label>
+    <input type="number" id="khtn" step="0.1">
+
+    <label>Sử - Địa:</label>
+    <input type="number" id="su_dia" step="0.1">
+
+    <label>GDCD:</label>
+    <input type="number" id="gdcd" step="0.1">
+
+    <label>Tin học:</label>
+    <input type="number" id="tin" step="0.1">
+
+    <label>Công nghệ:</label>
+    <input type="number" id="cn" step="0.1">
+
+    <button onclick="xepLoai()">🎓 Xếp loại</button>
+
+    <div class="result" id="ketqua"></div>
+  </div>
+
+  <script>
+    function xepLoai() {
+      const ten = document.getElementById("ten").value;
+      const toan = parseFloat(document.getElementById("toan").value);
+      const van = parseFloat(document.getElementById("van").value);
+      const anh = parseFloat(document.getElementById("anh").value);
+      const khtn = parseFloat(document.getElementById("khtn").value);
+      const su_dia = parseFloat(document.getElementById("su_dia").value);
+      const gdcd = parseFloat(document.getElementById("gdcd").value);
+      const tin = parseFloat(document.getElementById("tin").value);
+      const cn = parseFloat(document.getElementById("cn").value);
+
+      const tat_ca_diem = [toan, van, anh, khtn, su_dia, gdcd, tin, cn];
+      const dtb = tat_ca_diem.reduce((a, b) => a + b, 0) / tat_ca_diem.length;
+
+      let loai = "Kém";
+      if (dtb >= 8.0 && (toan >= 8.0 || van >= 8.0) && tat_ca_diem.every(d => d >= 6.5)) {
+        loai = "Giỏi";
+      } else if (dtb >= 6.5 && (toan >= 6.5 || van >= 6.5) && tat_ca_diem.every(d => d >= 5.0)) {
+        loai = "Khá";
+      } else if (dtb >= 5.0 && (toan >= 5.0 || van >= 5.0) && tat_ca_diem.every(d => d >= 3.5)) {
+        loai = "Trung bình";
+      } else if (dtb >= 3.5 && tat_ca_diem.every(d => d >= 2.0)) {
+        loai = "Yếu";
+      }
+
+      document.getElementById("ketqua").innerHTML =
+        `<p><strong>Tên:</strong> ${ten}</p>
+         <p><strong>Điểm trung bình:</strong> ${dtb.toFixed(2)}</p>
+         <p><strong>Xếp loại học lực:</strong> ${loai}</p>`;
+    }
+  </script>
+</body>
+</html>
