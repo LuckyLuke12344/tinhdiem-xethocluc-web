@@ -5,79 +5,81 @@
   <title>Ứng dụng Xếp loại Học lực</title>
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #ffecd2, #fcb69f);
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      min-height: 100vh;
-    }
-
-    .container {
-      background: white;
-      max-width: 600px;
-      width: 90%;
-      margin-top: 40px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #74ebd5, #acb6e5);
       padding: 30px;
-      border-radius: 16px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      color: #333;
     }
-
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
     h2 {
       text-align: center;
-      color: #333;
-      margin-bottom: 24px;
+      color: #4a4a4a;
     }
-
     label {
       font-weight: bold;
       display: block;
-      margin-top: 12px;
-      color: #333;
+      margin-top: 15px;
     }
-
-    input {
+    input[type="text"],
+    input[type="number"] {
       width: 100%;
       padding: 10px;
-      margin-top: 6px;
-      border-radius: 10px;
+      margin-top: 5px;
+      border-radius: 8px;
       border: 1px solid #ccc;
-      font-size: 16px;
     }
-
+    .note {
+      font-size: 13px;
+      color: #666;
+      font-style: italic;
+      margin-top: 12px;
+      margin-left: 36px;
+      line-height: 1.4
+    }     
+    .radio-group {
+      margin-top: 10px;
+    }
+    .radio-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+      font-weight: normal;
+    }
     button {
-      margin-top: 20px;
-      background-color: #ff7f50;
-      color: white;
-      border: none;
-      padding: 12px 20px;
-      font-size: 16px;
-      border-radius: 10px;
-      cursor: pointer;
       width: 100%;
-      transition: background-color 0.3s ease;
+      margin-top: 20px;
+      padding: 12px;
+      background-color: #4CAF50;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
     }
-
     button:hover {
-      background-color: #ff5722;
+      background-color: #45a049;
     }
-
     .result {
-      margin-top: 30px;
+      margin-top: 25px;
+      background: #e0f7fa;
       padding: 20px;
-      background-color: #fff8f0;
-      border-left: 6px solid #ffa500;
       border-radius: 10px;
-      font-size: 17px;
-      box-shadow: 0 0 8px rgba(0,0,0,0.05);
+      border: 1px solid #b2ebf2;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h2>📚 Ứng dụng Xếp loại Học lực</h2>
+    <h2>Ứng dụng Xếp loại Học lực</h2>
     <label>Họ tên học sinh:</label>
     <input type="text" id="ten">
 
@@ -105,7 +107,20 @@
     <label>Công nghệ:</label>
     <input type="number" id="cn" step="0.1">
 
-    <button onclick="xepLoai()">🎓 Xếp loại</button>
+    <label>Các môn nhận xét của bạn có đạt hết không?</label>
+<div class="radio-group">
+  <label class="radio-option">
+    <input type="radio" name="nhanxet" id="dat" value="dat" checked>
+    Có
+  </label>
+  <label class="radio-option">
+    <input type="radio" name="nhanxet" id="khongdat" value="khongdat">
+    Không
+  </label>
+  <p class="note">*Nếu có 1, 2... môn không đạt thì chọn "Không".</p>
+</div>
+
+    <button onclick="xepLoai()">Xếp loại</button>
 
     <div class="result" id="ketqua"></div>
   </div>
@@ -121,12 +136,15 @@
       const gdcd = parseFloat(document.getElementById("gdcd").value);
       const tin = parseFloat(document.getElementById("tin").value);
       const cn = parseFloat(document.getElementById("cn").value);
+      const nhanXetDat = document.getElementById("dat").checked;
 
       const tat_ca_diem = [toan, van, anh, khtn, su_dia, gdcd, tin, cn];
       const dtb = tat_ca_diem.reduce((a, b) => a + b, 0) / tat_ca_diem.length;
 
       let loai = "Kém";
-      if (dtb >= 8.0 && (toan >= 8.0 || van >= 8.0) && tat_ca_diem.every(d => d >= 6.5)) {
+      if (!nhanXetDat) {
+        loai = "Yếu";
+      } else if (dtb >= 8.0 && (toan >= 8.0 || van >= 8.0) && tat_ca_diem.every(d => d >= 6.5)) {
         loai = "Giỏi";
       } else if (dtb >= 6.5 && (toan >= 6.5 || van >= 6.5) && tat_ca_diem.every(d => d >= 5.0)) {
         loai = "Khá";
