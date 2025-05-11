@@ -1,3 +1,6 @@
+# Created by KienRobert12
+# GitHub: https://github.com/luckyluke12344/tinhdiem-xethocluc-web
+# License: MIT
 def xep_loai_hoc_luc():
     print("=== Ứng dụng Xếp loại Học lực (Python) ===")
     ten = input("Nhập họ tên học sinh: ")
